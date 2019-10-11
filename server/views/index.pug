@@ -4,10 +4,26 @@ block title
     title Koa 电影首页
 
 block content
-    .container
-        .row
-            .col-md-8
-                h1 Hi #{you}
-                p This is #{me}
-            .col-md-4
-                p 测试动态 Pug 模板引擎
+    include ./includes/header
+
+    .container-fluid
+        .sidebar
+        .content
+            .row
+                .col-md-6
+                    .card
+                        img.card-img-top(src='')
+                        .card-body
+                            h4.card-title 标题
+                            p.card-desc 电影描述
+                        .card-footer
+                            small.text-muted 1天前更新
+             .row
+                .col-md-6
+                    .card
+                        img.card-img-top(src='')
+                        .card-body
+                            h4.card-title 标题
+                            p.card-desc 电影描述
+                        .card-footer
+                            small.text-muted 1天前更新
