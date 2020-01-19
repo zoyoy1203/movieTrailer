@@ -1,10 +1,26 @@
 const Koa = require('koa')
-const app = new Koa()
+const mongoose = require('mongoose')
 const views = require('koa-views')
 const { resolve } = require('path')
+const { connect, initSchemas } = require('./database/init')
+
+
+// ;(async () => {
+//     await connect()
+//     initSchemas()
+
+//     // const Movie = mongoose.model('Movie')
+//     // const movies = await Movie.find({})
+//     // console.log(movies)
+// })()
+
+const app = new Koa()
+
+// 处理跨域
+
 
 app.use(views(resolve(__dirname, './views'), {
-    extension: 'pug'
+    extension: 'pug'   // 只要后缀名为pug的文件，都会被识别为模板文件
 }))
 
 app.use(async (ctx, next) => {
@@ -13,5 +29,7 @@ app.use(async (ctx, next) => {
        me: 'Scott'
    })
 })
+
+
 
 app.listen(3000)
