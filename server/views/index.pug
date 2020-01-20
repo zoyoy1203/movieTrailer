@@ -13,7 +13,7 @@ block content
                 .row
                     .col-md-6
                         .card
-                            img.card-img-top(src='http://img5.mtime.cn/mg/2020/01/17/213534.52414766.jpg',data-video='https://vfx.mtime.cn/Video/2020/01/17/mp4/200117213648150868_1080.mp4')
+                            img.card-img-top(src='http://img5.mtime.cn/mg/2020/01/17/213534.52414766.jpg',data-video='http://zoyoy.oss-cn-shanghai.aliyuncs.com/video/200117213648150868.mp4')
                             .card-body
                                 h4.card-title 标题
                                 p.card-desc 电影描述
@@ -60,18 +60,19 @@ block content
             $('.card-img-top').click(function(e) {
                 var video = $(this).data('video')
                 var image = $(this).attr('src')
-
+                console.log(video);
+                console.log(image);
                 $('#myModal').modal('show')
                 if(!player) {
                     player = new DPlayer({
                         container: document.getElementById('videoModal'),
-                        screenshot: true,
+                        autoplay: false,
+                        theme: '#FADFA3',
+                        loop: false,
                         hotkey: true,
                         video: {
                             url: video,
-                            pic: image,
-                            thumbnails: image,
-                        }
+                        },
                     })
                 }else {
                     player.switchVideo({
