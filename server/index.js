@@ -15,6 +15,9 @@ const views = require('koa-views')
 const { resolve } = require('path')
 const { connect, initSchemas } = require('./database/init')
 
+const router = require('./routes/referer');
+app.use(router.routes());
+
 // ;(async () => {
 //     await connect()
 //     initSchemas()

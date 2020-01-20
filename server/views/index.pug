@@ -21,7 +21,7 @@ block content
                                 small.text-muted 1天前更新
                     .col-md-6
                         .card
-                            img.card-img-top(src='http://img5.mtime.cn/mg/2020/01/17/213534.52414766.jpg',data-video='https://vfx.mtime.cn/Video/2020/01/17/mp4/200117213648150868_1080.mp4')
+                            img.card-img-top(src='//img5.mtime.cn/mg/2020/01/19/111125.48943604_160X90X4.jpg',data-video='http://localhost:3000/api?url=https://vfx.mtime.cn/Video/2020/01/19/mp4/200119111202176577_1080.mp4')
                             .card-body
                                 h4.card-title 标题
                                 p.card-desc 电影描述
@@ -53,6 +53,7 @@ block content
     script.
         var player = null;
         $(document).ready(function() {
+            // 视频暂停隐藏
             $('#myModal').on('hidden.bs.modal', function(e) {
                 if(player && player.pause) player.pause()
             })
@@ -60,13 +61,12 @@ block content
             $('.card-img-top').click(function(e) {
                 var video = $(this).data('video')
                 var image = $(this).attr('src')
-                console.log(video);
-                console.log(image);
-                $('#myModal').modal('show')
+           
+                $('#myModal').modal('show') // 弹窗显示
                 if(!player) {
                     player = new DPlayer({
                         container: document.getElementById('videoModal'),
-                        autoplay: false,
+                        autoplay: true,
                         theme: '#FADFA3',
                         loop: false,
                         hotkey: true,
