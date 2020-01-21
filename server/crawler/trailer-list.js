@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer')
 
-const url = `https://movie.douban.com/tag/#/?sort=R&range=6,10&tags=%E7%94%B5%E5%BD%B1,%E6%BE%B3%E5%A4%A7%E5%88%A9%E4%BA%9A`
+const url = `https://movie.douban.com/tag/#/?sort=U&range=8,10&tags=`
 
 const sleep = time => new Promise(resolve => {
   setTimeout(resolve, time)
@@ -14,18 +14,19 @@ const sleep = time => new Promise(resolve => {
     dumpio: false
   })
 
-  const page = await browser.newPage()
+  const page = await browser.newPage() // 开启一个新页面
   await page.goto(url, {
     waitUntil: 'networkidle2'
-  })
+  })  // 加载网页
 
   await sleep(3000)
 
-  await page.waitForSelector('.more')
+  await page.waitForSelector('.more')  // 等待加载更多按钮出现
 
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i <1; i++) {  // 点击按钮一次
     await sleep(3000)
     await page.click('.more')
+    await sleep(3000)
   }
 
   const result = await page.evaluate(() => {
@@ -54,6 +55,7 @@ const sleep = time => new Promise(resolve => {
   })
 
   browser.close()
+  // console.log(result);
 
   process.send({result})
   process.exit(0)
