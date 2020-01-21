@@ -1,4 +1,4 @@
-// 执行子进程../crawler/trailer-list.js
+// 执行子进程../crawler/trailer-list.js 获取电影列表
 
 const cp = require('child_process');
 const { resolve } = require('path');

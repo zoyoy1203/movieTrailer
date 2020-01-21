@@ -1,4 +1,4 @@
-// 执行子进程../crawler/video.js
+// 执行子进程../crawler/video.js  获取视频详情
 
 const cp = require('child_process');
 const { resolve } = require('path');
