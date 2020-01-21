@@ -9,7 +9,7 @@ const doSync = (sth, time) => new Promise(resolve => {
 const doAsync = (sth, time, cb) => {
     setTimeout(() => {
         console.log(sth + '用了' + time + '毫秒')
-        cb && cb()
+        cb && cb()  // 如果有回调的话，就执行回调函数
     }, time)
 }
 
