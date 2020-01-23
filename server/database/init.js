@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const db = 'mongodb://localhost/movies'
+const db = 'mongodb://localhost/douban-test'
 const glob = require('glob')
 const { resolve } = require('path')
 mongoose.Promise = global.Promise
@@ -32,16 +32,19 @@ exports.connect = () => {
         mongoose.connection.on('error', err => {
             maxConnectTimes++
             if (maxConnectTimes < 5){
-                mongoose.connect(db,{ useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
+                mongoose.connect(db,{ useNewUrlParser: true, useUnifiedTopology: true , useCreateIndex: true})
             }else {
                 throw new Error('数据库挂了，快去修！！！')
             }
         })
     
         mongoose.connection.on('open', () => {
-            
             //存储数据
-
+            // const Dog = mongoose.model('Dog',{ name: String});
+            // const doga = new Dog({ name: '阿尔法'});
+            // doga.save().then(() => {
+            //     console.log('wang');
+            // })
             resolve()
             console.log('MongoDB Connected successfully!')
         })

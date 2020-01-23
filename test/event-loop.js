@@ -1,4 +1,4 @@
-
+ 
 setImmediate(() => console.log('[阶段3.immediate] immediate 回调1'))
 setImmediate(() => console.log('[阶段3.immediate] immediate 回调2'))
 setImmediate(() => console.log('[阶段3.immediate] immediate 回调3'))

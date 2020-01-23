@@ -3,16 +3,16 @@ const Schema = mongoose.Schema
 const { Mixed, ObjectId } = Schema.Types
 
 
-const MovieSchema = new Schema({
-    id: {
-        unique:true,
-        required: true,  // 值不能为空
-        type:String
+const movieSchema = new Schema({
+    doubanId: {
+        unique: true,
+        required: true,
+        type: String,
     },
-    category: {
+    category: [{
         type: ObjectId,
         ref: 'Category'
-    },
+    }],
     rate: Number,
     title: String,
     summary: String,
@@ -24,8 +24,10 @@ const MovieSchema = new Schema({
     posterKey: String,
     coverKey: String,
 
+    rawTitle: String,
     movieTypes: [String],
-    pubdate: Mixed,
+    pubdate: Date,
+    country: [String],
     year: Number,
 
     tags: [String],
@@ -43,13 +45,13 @@ const MovieSchema = new Schema({
 
 })
 
-MovieSchema.pre('save', function (next) {
-    if(this.isNew) {
-        this.meta.createdAt = this.meta.updateAt = Date.now()
-    } else {
-        this.meta.updateAt = Date.now()
+movieSchema.pre('save', function (next) {
+    if(this.isNew){
+        this.meta.createdAt = this.meta.updateAt = Date.now();
+    }else {
+        this.meta.updateAt = Date.now();
     }
-    next()
+    next();
 })
 
-mongoose.model('Movie', MovieSchema)
+mongoose.model('Movie', movieSchema);
