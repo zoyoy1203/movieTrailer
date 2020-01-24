@@ -1,14 +1,12 @@
 const Koa = require('koa')
 const cors = require('koa2-cors');
 
-const mongoose = require('mongoose')
-const views = require('koa-views')
 const { resolve } = require('path')
 const { connect, initSchemas } = require('./database/init')
 const routerRerfer = require('./routes/referer');
 
 const R = require('ramda')
-const MIDDLEWARES = ['router']
+const MIDDLEWARES = ['router', 'parcel']
 
 // 加载中间件数组
 const useMiddleWares = (app) => {

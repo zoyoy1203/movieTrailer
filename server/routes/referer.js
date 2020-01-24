@@ -3,7 +3,6 @@ const Router = require('koa-router') // koa 路由中间件
 const router = new Router(); // 实例化路由
 const request = require('request');
 
-/* GET home page. */
 router.get('/api', async(ctx, next) => {
  
   var url=ctx.request.query.url;

@@ -4,13 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server/index.js",
+    "start": "rimraf dist && rimraf .cache && set NODE_ENV=development && nodemon ./start.js ",
+    "build": "rimraf dist && parcel build src/index.html --no-cache -d dist --public-url /",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "zoyoy1203",
   "license": "ISC",
   "dependencies": {
     "@koa/cors": "^2.2.3",
+    "antd": "^3.26.7",
     "bcrypt": "^3.0.6",
     "cheerio": "^1.0.0-rc.3",
     "dplayer": "^1.25.0",
@@ -20,6 +22,7 @@
     "koa": "^2.8.2",
     "koa-cors": "0.0.16",
     "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
     "koa-views": "^6.2.1",
     "koa2-cors": "^2.0.6",
     "lodash": "^4.17.15",
@@ -29,6 +32,9 @@
     "puppeteer": "^1.20.0",
     "qiniu": "^7.3.0",
     "ramda": "^0.26.1",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-router-dom": "^4.3.1",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.8"
   },
@@ -41,6 +47,8 @@
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-0": "^6.24.1"
+    "babel-preset-stage-0": "^6.24.1",
+    "parcel-bundler": "^1.12.4",
+    "sass": "^1.25.0"
   }
 }
