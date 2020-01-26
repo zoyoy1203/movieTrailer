@@ -5,7 +5,9 @@ import {
     Row,
     Col,
     Badge,
-    Icon
+    Icon,
+    Modal,
+    Spin
 }  from 'antd';
 import { Link } from 'react-router-dom'
 import 'moment/locale/zh-cn'
@@ -13,8 +15,68 @@ moment.locale('zh-cn')
 
 const site = 'http://q4pmdo89u.bkt.clouddn.com/'
 const Meta = Card.Meta
+const DPlayer = window.DPlayer
 
 export default class Content extends Component {
+
+    state = { visible: false}
+
+    _handleClose = (e) => {
+        // 当前player执行过并且有暂停方法  则执行暂停
+        if(this.player && this.player.pause) {
+            this.player.pause()
+        }
+    }
+
+    _handleCancel = (e) => {
+        this.setState({
+            visible: false
+        })
+    }
+
+    _jumpToDetail = () => {
+        const { url } = this.props
+        url && window.open(url)
+    }
+
+    _showModal = (movie) => {
+        this.setState({
+            visible: true
+        })
+
+        const video = site + movie.videoKey
+        const pic = site + movie.coverKey
+
+        if(!this.player) {
+            setTimeout(() => {
+                this.player = new DPlayer({
+                    container: document.getElementsByClassName('videoModal')[0],
+                    autoplay: true,
+                    video: {
+                        url: video,
+                        pic: pic,
+                        thumbnail: pic
+                    },
+                })
+            },500)
+           
+        }else {
+            if (this.player.video.currentSrc !== video) {
+                this.player.switchVideo({
+                    url: video,
+                    autoplay: true,
+                    pic: pic,
+                    type: 'auto'
+                })
+            }
+
+            this.player.play()
+           
+        }
+
+
+    }
+
 
     _renderContent = () => {
         const { movies } = this.props
@@ -45,12 +107,13 @@ export default class Content extends Component {
                                             {it.rate} 分
                                         </Badge>
                                     ]}
-                                    cover={<img src={site + it.posterKey + '?imageMongr2/thumbnail/x1680/crop/1080x1600'}  style={{ height: '370px', overflow: 'hidden' }}/>}
+                                    cover={<img onClick={() => this._showModal(it)} src={site + it.posterKey + '?imageMogr2/thumbnail/x1680/crop/1080x1600'}  />}
                                     // cover={<img src={it.poster} />}
                                 >
                                     <Meta
                                         style={{height: '202px', overflow:'hidden'}}
                                         title={<Link to={`/detail/${it._id}`} >{it.title}</Link>}
+                                        onClick={this._jumpToDetail}
                                         description={<Link to={`/detail/${it._id}`} >{it.summary}</Link>}
                                     />
                                 </Card>
@@ -58,6 +121,15 @@ export default class Content extends Component {
                         ))
                     }
                 </Row>
+                <Modal
+                    className ='videoModal'
+                    footer={null}
+                    visible={this.state.visible}
+                    afterClose={this._handleClose}
+                    onCancel={this._handleCancel}
+                >
+                    <Spin size='large' />
+                </Modal>
             </div>
         )
     }

@@ -18,15 +18,16 @@ async function fetchMovie (item) {
 }
 
 ;(async () => {
-    let movies = await Movie.find({
-        $or: [
-            { cover: null},
-            { summary: { $exists: false}},
-            { summary: null },
-            { title: '' },
-            { summary: ''}
-        ]
-    })
+    // {
+    //     $or: [
+    //         { cover: null},
+    //         { summary: { $exists: false}},
+    //         { summary: null },
+    //         { title: '' },
+    //         { summary: ''}
+    //     ]
+    // }
+    let movies = await Movie.find()
 
     // 测试时只查询一次movie  movies.length
     for (let i =0; i<movies.length; i++) {
@@ -40,9 +41,31 @@ async function fetchMovie (item) {
             movie.summary = movieData.summary;
             movie.title = movieData.alt_title || movieData.title || '';
             movie.rawTitle =  movieData.title || '';
-
-            movie.pubdate = movieData.mainland_pubdate || null;
             movie.country = movieData.countries || ['未知'];
+
+            if(movieData.pubdates){
+                let dates = movieData.pubdates || []
+                let pubdates = []
+        
+                dates.map(item => {
+                  if (item && item.split('(').length > 0) {
+                    let parts = item.split('(')
+                    let date = parts[0]
+                    let country = '未知'
+        
+                    if (parts[1]) {
+                      country = parts[1].split(')')[0]
+                    }
+        
+                    pubdates.push({
+                      date: new Date(date),
+                      country
+                    })
+                  }
+                })
+        
+                movie.pubdate = pubdates
+            }
 
             if( movieData.trailers.length >0) {
                 movie.video = movieData.trailers[0].resource_url ;

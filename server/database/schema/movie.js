@@ -26,7 +26,7 @@ const movieSchema = new Schema({
 
     rawTitle: String,
     movieTypes: [String],
-    pubdate: Date,
+    pubdate: Mixed,
     country: [String],
     year: Number,
 
