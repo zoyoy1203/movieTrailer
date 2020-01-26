@@ -1,5 +1,5 @@
 
-// https://douban.uieee.com/v2/movie/subject/25924056
+// 爬API 数据接口
 const rp = require('request-promise-native');
 const mongoose = require('mongoose');
 const Movie = mongoose.model('Movie');
@@ -20,6 +20,7 @@ async function fetchMovie (item) {
 ;(async () => {
     let movies = await Movie.find({
         $or: [
+            { cover: null},
             { summary: { $exists: false}},
             { summary: null },
             { title: '' },
@@ -32,7 +33,7 @@ async function fetchMovie (item) {
         let movie = movies[i];
         let movieData = await fetchMovie(movie)
 
-        // console.log(movieData)
+        console.log(i)
 
         if(movieData) {
             movie.tags =  movieData.tags || [];
@@ -42,6 +43,15 @@ async function fetchMovie (item) {
 
             movie.pubdate = movieData.mainland_pubdate || null;
             movie.country = movieData.countries || ['未知'];
+
+            if( movieData.trailers.length >0) {
+                movie.video = movieData.trailers[0].resource_url ;
+                movie.cover = movieData.trailers[0].medium ;
+            }else{
+                movie.video =  null;
+                movie.cover =  null;
+            }
+         
 
             movie.movieTypes = movieData.genres || [];
             // 循环查看创建Category是否存在该分类,存储分类和相应电影_id

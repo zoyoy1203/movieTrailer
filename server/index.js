@@ -26,7 +26,8 @@ const useMiddleWares = (app) => {
 ;(async () => {
     await connect()
     initSchemas()
-    require('./tasks/api')
+    // require('./tasks/api')
+    // require('./tasks/qiniu.js')
     // require('./tasks/movie')
     // const Movie = mongoose.model('Movie')
     // const movies = await Movie.find({})

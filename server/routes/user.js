@@ -1,11 +1,11 @@
-const { controller, get, post, put } = require('../lib/decorator')
+const { Controller, Get, Post, Put } = require('../lib/decorator')
 const { 
     checkPassword
 } = require('../service/user');
 
-@controller('/api/v0/movies')
+@Controller('/api/v0/movies')
 export class userController{
-    @post('/')
+    @Post('/')
     async checkPassword (ctx, next) {
         const { email, password } = ctx.request.body;
         const matchData = await checkPassword(email, password);

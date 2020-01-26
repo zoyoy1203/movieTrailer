@@ -1,26 +1,31 @@
 
 
-const { controller, get, post, put } = require('../lib/decorator')
+const {  
+    Controller,
+    Get,
+    Required, 
+} = require('../lib/decorator')
 const { 
     getAllMovies,
     getMovieDetail,
     getRelativeMovies
 } = require('../service/movie');
 
-@controller('/api/v0/movies')
+@Controller('/movies')
 export class movieController{
-    @get('/')
+    @Get('/all')
     async getMovies (ctx, next) {
         const { type, year } = ctx.query;
         const movies = await getAllMovies(type, year);
     
         ctx.body = {
-            movies
+            success: true,
+            data: movies
         }
     }
 
 
-    @get('/:id')
+    @Get('/detail/:id')
     async getMovieDetail (ctx, next) {
         // const Movie = mongoose.model('Movie')
         // const id = ctx.params.id;

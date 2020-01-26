@@ -12,13 +12,13 @@ const getMenuContent = ({ path, name}) => (
 )
 
 export default class LayoutDefault extends Component {
-    constructor () {
+    constructor (props) {
         super(props)
         this.state = {
             loading: false,
             tip: '在等一下，不要着急！！！'
         }
-    },
+    }
 
     componentDidMount () {
         Window.__LOADING__ = this.toggleLoading
@@ -35,7 +35,7 @@ export default class LayoutDefault extends Component {
             : '全部'
         : navRoutes[0].name
 
-    toggleLoading = (stats = false, tip='在等一下么') => {
+    toggleLoading = (status = false, tip='在等一下么') => {
         this.setState({
             tip,
             loading: status
