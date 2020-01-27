@@ -9,7 +9,7 @@ const _request = (params = {}, fn = () => {}) => {
   return axios({ ...defaultAxiosConf, ...params })
     .then(res => {
       const { success, data, errMsg, errCode } = res.data
-      console.log(res)
+
       if (errCode === 401) {
         window.location.href = '/'
         return
@@ -29,7 +29,6 @@ const _request = (params = {}, fn = () => {}) => {
 
 export default (param) => {
   const typeRes = typeof param
-  console.log(param)
   if (typeRes === 'function') {
     param(true)
     return (obj) => _request(obj, param)

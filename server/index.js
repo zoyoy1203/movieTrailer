@@ -2,11 +2,11 @@ const Koa = require('koa')
 const cors = require('koa2-cors');
 
 const { resolve } = require('path')
-const { connect, initSchemas } = require('./database/init')
+const { connect, initSchemas, initAdmin } = require('./database/init')
 const routerRerfer = require('./routes/referer');
 
 const R = require('ramda')
-const MIDDLEWARES = ['router', 'parcel']
+const MIDDLEWARES = ['common', 'router', 'parcel']
 
 // 加载中间件数组
 const useMiddleWares = (app) => {
@@ -26,6 +26,7 @@ const useMiddleWares = (app) => {
 ;(async () => {
     await connect()
     initSchemas()
+    initAdmin()
     // require('./tasks/api')
     // require('./tasks/qiniu.js')
     // require('./tasks/movie')

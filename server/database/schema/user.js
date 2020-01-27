@@ -39,7 +39,7 @@ const userSchema = new Schema({
     }
 })
 
-userSchema.virtual('isLocked').get(() => {
+userSchema.virtual('isLocked').get(function () {
     return !!(this.lockUntil && this.lockUntil > Date.now());  // 判断锁定时间是否过期
 })
 
@@ -54,18 +54,22 @@ userSchema.pre('save',  function (next)  {
 });
 
 userSchema.pre('save', function (next) {
-    if (!this.isModified('password')) return next();
+    let user = this
+  
+    if (!user.isModified('password')) return next()
+  
     bcrypt.genSalt(SALT_WORK_FACTOR, (err, salt) => {
-        if(err) return next(err);
-        bcrypt.hash(this.password, salt, (error, hash) => {
-            if(error) return next(error);
-            this.password = hash;
-            next();
-        })
+      if (err) return next(err)
+  
+      bcrypt.hash(user.password, salt, (error, hash) => {
+        if (error) return next(error)
+  
+        user.password = hash
+        next()
+      })
     })
-    
-    next();
-});
+})
+  
 
 userSchema.methods = {
     // 判断输入的密码与数据库加密密码是否一致
