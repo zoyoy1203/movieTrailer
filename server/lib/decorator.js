@@ -1,8 +1,10 @@
+import { async } from 'q';
 
 const Router = require('koa-router');
 const { resolve } = require('path');
 const _ = require('lodash');
 const glob = require('glob');
+const R = require('ramda')
 
 const symbolPrefix = Symbol('prefix');
 const routerMap = new Map();
@@ -59,7 +61,7 @@ export const Put = path => router({
 });
 
 export const Del = path => router({
-    method: 'del',
+    method: 'delete',
     path: path
 });
 
@@ -72,3 +74,70 @@ export const All = path => router({
     method: 'all',
     path: path
 });
+
+const changeToArr = R.unless(
+    R.is(isArray),
+    R.of
+)
+
+const decorate = (args, middleware) => {
+    let [target, key, descriptor ] = args
+    target[key] = isArray(target[key])
+    target[key].unshift(middleware)
+
+    return descriptor
+
+}
+
+const convert = middleware => (...args) => decorate(args, middleware)
+
+export const auth = convert(async (ctx, next) => {
+    if (!ctx.session.user) {
+        return (
+            ctx.body = {
+                success: false,
+                code: 401,
+                err: '登录信息失效重新登录'
+            }
+        )
+    }
+    await next()
+}) 
+
+export const admin = roleExpected => convert(async (ctx, next) => {
+    const { role } = ctx.session.user
+    const rule = {
+        admin: [1,4,5],
+        superAdmin: [1,2,3,4]
+    }
+    if (!role || role!==roleExpected ) {
+        return (
+            ctx.body = {
+                success: false,
+                code: 403,
+                err: '你没有权限，来错地方了'
+            }
+        )
+    }
+    await next()
+}) 
+
+export const required = rules => convert(async(ctx, next) => {
+    let errors =[]
+    const checkRules = R.forEachObjIndexed(
+        (value, key) => {
+            errors = R.filter(i => !R.has(i, ctx, ctx.request[key]))(value)
+        }
+    )
+
+    checkRules(rules)
+
+    if(errors.length) {
+        ctx.body = {
+            success: false,
+            code: 412,
+            err: `${errors.join(',')} is required`
+        }
+    }
+    await next()
+})

@@ -26,6 +26,10 @@ const userSchema = new Schema({
         required: true,
         default: 0
     },
+    role: {
+        type: String,
+        default: 'user'
+    },
     lockUntil: Number,  // 锁定时间
     meta: {
         createdAt: {

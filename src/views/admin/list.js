@@ -91,7 +91,7 @@ export default class AdminList extends Component {
           {
             title: '操作',
             key: 'action',
-            render: (text, record) => <Button type="danger" onClick={this._delete}>删除</Button>
+            render: (text, record) => <Button type="danger" onClick={() => this._deleteMovie(record._id)}>删除</Button>
           }]
     }
   }
@@ -114,7 +114,7 @@ export default class AdminList extends Component {
     console.log(this._toggleLoading)
     request(this._toggleLoading)({
       method: 'get',
-      url: `/movies/all`
+      url: `/admin/movie/list`
     }).then(res => {
       this.setState({
         dataSource: res
@@ -126,6 +126,20 @@ export default class AdminList extends Component {
     })
   }
 
+  _deleteMovie = (id) => {
+    request({
+      method: 'delete',
+      url: `/admin/movies?id=${id}`
+    }).then(res => {
+      this.setState({
+        dataSource: res
+      })
+    }).catch(() => {
+      this.setState({
+        dataSource: []
+      })
+    })
+  }
 
   render () {
     let { dataSource, columns } = this.state
