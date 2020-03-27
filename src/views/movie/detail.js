@@ -11,7 +11,7 @@ moment.locale('zh-cn')
 
 const TabPane = Tabs.TabPane
 const DPlayer = window.DPlayer
-const site = 'http://q4pmdo89u.bkt.clouddn.com/'
+const site = 'http://abc.zyuanyuan.cn/'
 
 const callback = (key) => {
   console.log(key)

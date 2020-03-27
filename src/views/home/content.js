@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom'
 import 'moment/locale/zh-cn'
 moment.locale('zh-cn')
 
-const site = 'http://q4pmdo89u.bkt.clouddn.com/'
+const site = 'http://abc.zyuanyuan.cn/'
 const Meta = Card.Meta
 const DPlayer = window.DPlayer
 
