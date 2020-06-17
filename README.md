@@ -6,4 +6,4 @@
 - 七牛云对象存储和CDN域名加速
 
 演示效果：
-<img src="https://github.com/zoyoy1203/movieTrailer/blob/master/others/img31.gif" width="600" />
+<img src="https://zoyoy.oss-cn-shanghai.aliyuncs.com/githubImg/movieTrailer.gif" width="600" />

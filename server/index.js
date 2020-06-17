@@ -26,7 +26,7 @@ const useMiddleWares = (app) => {
 ;(async () => {
     await connect()
     initSchemas()
-    initAdmin()
+    // initAdmin()
     // require('./tasks/api')
     // require('./tasks/qiniu.js')
     // require('./tasks/movie')
@@ -35,6 +35,8 @@ const useMiddleWares = (app) => {
     // console.log(movies)
 
     const app = new Koa()
+
+
     // 处理跨域
     app.use(cors())
     app.use(async (ctx, next) => {
